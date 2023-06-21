@@ -1,4 +1,4 @@
-![](./imgs//logo-name.png)
+![](docs/imgs/logo-name.png)
 ---
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/TencentBlueKing/lesscode-custom-components/blob/master/LICENSE.txt) [![Release Version](https://img.shields.io/github/v/release/TencentBlueKing/lesscode-custom-components?include_prereleases)](https://github.com/TencentBlueKing/lesscode-custom-components/releases) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/TencentBlueKing/lesscode-custom-components/pulls)
 

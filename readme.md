@@ -1,4 +1,4 @@
-![](./imgs//logo-name.png)
+![](docs/imgs/logo-name.png)
 ---
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/TencentBlueKing/lesscode-custom-components/blob/master/LICENSE.txt) [![Release Version](https://img.shields.io/github/v/release/TencentBlueKing/lesscode-custom-components?include_prereleases)](https://github.com/TencentBlueKing/lesscode-custom-components/releases) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/TencentBlueKing/lesscode-custom-components/pulls)
 
@@ -229,8 +229,8 @@ npm run build
 - [BK-JOB](https://github.com/Tencent/bk-job) 蓝鲸作业平台(Job)是一套运维脚本管理系统，具备海量任务并发处理能力。
 
 ## Contributing
-- Please read [Contributing(In Chinese)](docs/CONTRIBUTING.md) for the branch management, issue and pr specifications of lesscode-custom-components.
-- [Tencent Open Source Incentive Program](https://opensource.tencent.com/contribution) encourages the participation and contribution of developers. We look forward to having you join it.
+- 关于 lesscode-custom-components 分支管理、issue 以及 pr 规范，请阅读 [Contributing](docs/CONTRIBUTING.md)
+- [腾讯开源激励计划](https://opensource.tencent.com/contribution) 鼓励开发者的参与和贡献，期待你的加入
 
 ## License
-Based on the MIT license. Please refer to [LICENCE](LICENSE.txt) for details.
+基于 MIT 协议，详细请参考 [LICENSE](LICENSE.txt)

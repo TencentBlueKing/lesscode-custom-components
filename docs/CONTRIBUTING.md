@@ -21,7 +21,7 @@ git commit -m '标记: 提交的概要注释 issue #1'
 示例:
 
 ```shell
-git commit -m 'feat: 添加 webpack5 服务 #1'
+git commit -m 'feat: 添加 vue3 框架 #1'
 ```
 
 ### 标记说明:
