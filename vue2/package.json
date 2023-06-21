@@ -1,0 +1,40 @@
+{
+  "name": "lesscode-custom-component",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bk-cli-service-webpack dev",
+    "build": "node ./build.js",
+    "lint": "eslint --ext .js,.vue ./src",
+    "lint-fix": "eslint --fix --ext .js,.vue ./src"
+  },
+  "keywords": [
+    "bk-lesscode",
+    "vue2",
+    "bk-cli-service-webpack"
+  ],
+  "author": "bkfe",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "bk-magic-vue": "latest",
+    "cookie-parser": "^1.4.5",
+    "enhanced-resolve": "^5.10.0",
+    "postcss": "~8.4.16",
+    "postcss-import": "^15.0.0",
+    "postcss-mixins": "^9.0.4",
+    "postcss-nested": "^6.0.0",
+    "postcss-nested-ancestors": "^3.0.0",
+    "postcss-preset-env": "^7.8.2",
+    "postcss-simple-vars": "^7.0.0",
+    "postcss-url": "^10.1.3",
+    "query-string": "^7.1.1",
+    "url-parse": "^1.5.10",
+    "vue": "2.6.14",
+    "vue-template-compiler": "2.6.14"
+  },
+  "devDependencies": {
+    "@blueking/babel-preset-bk": "^2.1.0-beta7",
+    "@blueking/cli-service-webpack": "0.0.0-beta.80",
+    "@blueking/eslint-config-bk": "^2.0.0"
+  }
+}

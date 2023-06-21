@@ -1,0 +1,173 @@
+{
+    "name": "poc-table",
+    "type": "poc-table",
+    "displayName": "poc-table",
+    "framework": "vue2",
+    "styles": [
+        "size",
+        "padding",
+        "margin",
+        "font",
+        "backgroundColor"
+    ],
+    "events": [
+        {
+            "name": "handle-click",
+            "tips": "123"
+        }
+    ],
+    "props": {
+        "data-table": {
+            "type": "object",
+            "val": [
+                {
+                    "prop1": "1-1",
+                    "prop2": {
+                        "sorts": [
+                            {
+                                "label": "tp",
+                                "prop": "tp"
+                            },
+                            {
+                                "label": "value",
+                                "prop": "value"
+                            }
+                        ],
+                        "data": [
+                            {
+                                "tp": "123",
+                                "value": "1234"
+                            }
+                        ]
+                    },
+                    "prop3": "1-3",
+                    "prop4": "這一列是字符串",
+                    "prop5": [
+                        {
+                            "tp": "123",
+                            "value": "12314234"
+                        }
+                    ]
+                },
+                {
+                    "prop1": "2-1",
+                    "prop2": {
+                        "sorts": [
+                            {
+                                "label": "tp",
+                                "prop": "tp"
+                            },
+                            {
+                                "label": "value",
+                                "prop": "value"
+                            }
+                        ],
+                        "data": [
+                            {
+                                "tp": "123",
+                                "value": "1234"
+                            }
+                        ]
+                    },
+                    "prop3": "2-3",
+                    "prop4": [
+                        {
+                            "tp": "123",
+                            "value": "12314234"
+                        }
+                    ],
+                    "prop5": [
+                        {
+                            "tp": "123",
+                            "value": "12314234"
+                        }
+                    ]
+                },
+                {
+                    "prop1": "3-1",
+                    "prop2": {
+                        "sorts": [
+                            {
+                                "label": "tp",
+                                "prop": "tp"
+                            },
+                            {
+                                "label": "value",
+                                "prop": "value"
+                            }
+                        ],
+                        "data": [
+                            {
+                                "tp": "123",
+                                "value": "1234"
+                            }
+                        ]
+                    },
+                    "prop3": "3-3",
+                    "prop4": [
+                        {
+                            "tp": "123",
+                            "value": "12314234"
+                        }
+                    ],
+                    "prop5": [
+                        {
+                            "tp": "123",
+                            "value": "12314234"
+                        }
+                    ]
+                }
+            ]
+        },
+        "slot-table": {
+            "type": "object",
+            "val": [
+                {
+                    "label": "第一列",
+                    "prop": "prop1",
+                    "sortable": false,
+                    "builtIn": false
+                },
+                {
+                    "label": "第二列",
+                    "prop": "prop2",
+                    "sortable": false,
+                    "builtIn": "table"
+                },
+                {
+                    "label": "第三列",
+                    "prop": "prop3",
+                    "sortable": false,
+                    "builtIn": false
+                },
+                {
+                    "label": "第四列",
+                    "prop": "prop4",
+                    "sortable": false,
+                    "builtIn": "text"
+                },
+                {
+                    "label": "第五列",
+                    "prop": "prop5",
+                    "sortable": false,
+                    "builtIn": "button"
+                }
+            ]
+        },
+        "button-text": {
+            "type": "string",
+            "val": "按钮"
+        },
+        "button-theme": {
+            "type": "string",
+            "options": [
+                "default",
+                "primary",
+                "success",
+                "warning",
+                "danger",
+                "text"
+            ]
+        }
+    }
+}
