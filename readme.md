@@ -172,7 +172,7 @@ npm run build
 #### 选择一个应用，进入应用管理
 
 > 在应用列表中选择将要编辑的应用，或者新建一个应用（应用创建成功会自动进入到应用管理页面）
-![](docs/imgs/project-list.png)
+![](docs/imgs/project-list-new.png)
 
 #### 新建自定义组件
 

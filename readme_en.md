@@ -172,7 +172,7 @@ npm run build
 #### Select an application and enter the application management
 
 > Select the application you want to edit in the application list, or create a new application (successful application creation will automatically go to the application management page)
-! [](docs/imgs/project-list.png)
+! [](docs/imgs/project-list-new.png)
 
 #### New custom component
 
