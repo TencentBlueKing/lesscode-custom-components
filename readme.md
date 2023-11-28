@@ -4,7 +4,7 @@
 
 [English](readme_en.md) | 简体中文
 ## LESSCODE-CUSTOM-COMPONENTS
-蓝鲸智云可视化开发平台(LessCode)，自定义组件框架。
+蓝鲸智云运维开发平台(LessCode)，自定义组件框架。
 
 ### 组件升级
 ```bash
@@ -147,7 +147,7 @@
 
 ```bash
 1. 安装依赖
-npm i 
+npm i
 
 2. 本地开发
 npm run dev
@@ -165,7 +165,7 @@ npm run build
 
 ### 上传
 
-#### 登录蓝鲸可视化开发平台
+#### 登录蓝鲸运维开发平台
 
 > 已登陆可回到首页
 
