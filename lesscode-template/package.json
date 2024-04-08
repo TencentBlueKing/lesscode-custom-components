@@ -1,7 +1,7 @@
 {
-  "name": "lesscode-test",
-  "version": "0.0.0-beta.1",
-  "description": "蓝鲸监控平台日期时间选择",
+  "name": "lesscode-component",
+  "version": "0.0.2",
+  "description": "业务组件",
   "license": "MIT",
   "author": "Tencent BlueKing",
   "scripts": {
