@@ -1,0 +1,54 @@
+{
+  "type": "blueking-date-picker-new",
+  "name": "blueking-date-picker-new",
+  "displayName": "蓝鲸监控平台日期组件",
+  "framework": "vue3",
+  "props": {
+    "behavior": {
+      "type": "string",
+      "val": "normal",
+      "options": ["normal", "simplicity"],
+      "tips": "组件展示风格"
+    },
+    "commonUseList": {
+      "type": "array",
+      "tips": "常用列表"
+    },
+    "disabled": {
+      "type": "boolean",
+      "tips": "是否禁用"
+    },
+    "format": {
+      "type": "string",
+      "tips": "日期转换显示格式"
+    },
+    "modelValue": {
+      "type": "array",
+      "val": ["now-1d", "now"],
+      "tips": "日期值"
+    },
+    "needTimezone": {
+      "type": "boolean",
+      "tips": "是否展示时区"
+    },
+    "timezone": {
+      "type": "string",
+      "tips": "时区值"
+    },
+    "version": {
+      "type": ["number", "string"],
+      "val": "1.0",
+      "tips": "版本号 用于控制本地缓存"
+    }
+  },
+  "events": [
+    {
+      "name": "update:modelValue",
+      "tips": "响应组件的点击事件"
+    },
+    {
+      "name": "update:timezone",
+      "tips": "更新时区值的事件，以及时区信息"
+    }
+  ]
+}
