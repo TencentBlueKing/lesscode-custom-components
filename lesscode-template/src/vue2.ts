@@ -88,35 +88,7 @@ export default {
     this.app?.mount(this.$el);
   },
   name: 'DatePicker',
-  props: {
-    behavior: {
-      default: 'normal',
-      type: String,
-      validate: (v: string) => ['normal', 'simplicity'].includes(v),
-    },
-    commonUseList: Array,
-    disabled: {
-      default: false,
-      type: Boolean,
-    },
-    format: {
-      default: 'YYYY-MM-DD HH:mm:ss',
-      type: String,
-    },
-    modelValue: {
-      default: () => [],
-      type: Array,
-    },
-    needTimezone: {
-      default: true,
-      type: Boolean,
-    },
-    timezone: String,
-    version: {
-      default: 1,
-      type: Number,
-    },
-  },
+  props: DatePicker.props,
   render(createElement) {
     return createElement('div');
   },
