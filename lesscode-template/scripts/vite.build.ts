@@ -26,11 +26,14 @@
 import { mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 // import { minify } from 'terser';
-import { LibraryFormats, build } from 'vite';
+import { BuildOptions, LibraryFormats, UserConfig, build } from 'vite';
 import { zip } from 'zip-a-folder';
 
 import { getPackageInfo } from './release.utils';
 import { VueVersion, createBuildConfig } from './vite.utils';
+export interface PartialUserConfig extends UserConfig {
+  build?: BuildOptions;
+}
 interface LesscodeConfig {
   displayName: string;
   events?: {
@@ -46,10 +49,11 @@ const buildLib = async (
   version: VueVersion,
   formats: LibraryFormats[],
   emptyOutDir = false,
+  userConfig?: UserConfig,
   // uglyfiy = false,
 ) => {
   await build({
-    ...createBuildConfig(version, formats, emptyOutDir),
+    ...createBuildConfig(version, formats, emptyOutDir, userConfig),
   });
   const { pkg } = getPackageInfo<LesscodeConfig>('../lesscode/config.json');
   pkg.framework = version;

@@ -25,7 +25,7 @@
  */
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
-import { LibraryFormats, type UserConfig, loadEnv } from 'vite';
+import { LibraryFormats, type UserConfig, loadEnv, mergeConfig } from 'vite';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 const LessCodeGlobalVar = 'lesscodeCustomComponentLibrary';
@@ -78,32 +78,45 @@ export const createCommonConfig = (prefix = env.BKUI_PREFIX, isIIFE = false): Us
   plugins: [vue(), isIIFE ? cssInjectedByJsPlugin() : undefined].filter(Boolean),
 });
 
-export const createBuildConfig = (version: VueVersion, formats: LibraryFormats[], emptyOutDir: boolean): UserConfig => {
-  const entry = resolve(process.cwd(), `src/${version}.ts`);
+export const createBuildConfig = (
+  version: VueVersion,
+  formats: LibraryFormats[],
+  emptyOutDir: boolean,
+  userConfig?: UserConfig,
+): UserConfig => {
   const isIIFE = formats.includes('iife');
   const prefix = getPrefix(version, formats);
-
-  return {
-    build: {
-      copyPublicDir: true,
-      cssCodeSplit: !isIIFE,
-      emptyOutDir,
-      lib: { entry, fileName: format => `index.${format}.min.js`, formats, name: LessCodeGlobalVar },
-      minify: true,
-      rollupOptions: {
-        external: getExternal(formats, version),
-        output: {
-          assetFileNames: isIIFE ? undefined : () => `${version}.css`,
-          dir: resolve(process.cwd(), `${version}`),
-          globals: { vue: 'Vue' },
+  return mergeConfig<UserConfig, UserConfig>(
+    {
+      build: {
+        copyPublicDir: true,
+        cssCodeSplit: !isIIFE,
+        emptyOutDir,
+        lib: {
+          entry: resolve(process.cwd(), `src/${version}.ts`),
+          fileName: format => `index.${format}.min.js`,
+          formats,
+          name: LessCodeGlobalVar,
+        },
+        minify: true,
+        rollupOptions: {
+          external: getExternal(formats, version),
+          output: {
+            assetFileNames: isIIFE ? undefined : () => `${version}.css`,
+            dir: resolve(process.cwd(), `${version}`),
+            globals: { vue: 'Vue' },
+          },
         },
       },
+      publicDir: 'public',
+      resolve:
+        version === VueVersion.Vue2 && !isIIFE
+          ? { alias: [{ find: 'vue', replacement: '@blueking/bkui-library' }] }
+          : undefined,
+      ...createCommonConfig(prefix, isIIFE),
     },
-    publicDir: 'public',
-    resolve:
-      version === VueVersion.Vue2 && !isIIFE
-        ? { alias: [{ find: 'vue', replacement: '@blueking/bkui-library' }] }
-        : undefined,
-    ...createCommonConfig(prefix, isIIFE),
-  };
+    {
+      ...userConfig,
+    },
+  );
 };

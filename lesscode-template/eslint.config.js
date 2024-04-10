@@ -6,7 +6,11 @@ const codecc = require('eslint-plugin-codecc');
 const eslintVueParser = require('vue-eslint-parser');
 const perfectionistNatural = require('eslint-plugin-perfectionist/configs/recommended-natural');
 const eslintVuePlugin = require('eslint-plugin-vue');
+
 module.exports = [
+  {
+    ignores: ['node_modules', 'dist', './vue2/*', './vue3/*'],
+  },
   eslintConfigPrettier,
   perfectionistNatural,
   {
@@ -70,19 +74,16 @@ module.exports = [
     settings: {},
   },
   {
-    files: ['src/date-picker.vue', 'src/**/*.vue', 'playground/**/*.vue'],
+    files: ['src/**/*.vue', 'playground/**/*.vue'],
     languageOptions: {
       parser: eslintVueParser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2018,
+        ecmaVersion: 'latest',
         extraFileExtensions: ['.vue'],
-        parser: '@typescript-eslint/parser',
-        project: './tsconfig.json',
-        sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        parser: typescriptEslintParser,
       },
     },
     plugins: {

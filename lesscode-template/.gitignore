@@ -31,5 +31,5 @@ pre-*-bkcodeai
 /vue3
 /vue2
 /dist
-/lesscode-dist
+/lesscode-dist/*
 /typings
