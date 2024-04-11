@@ -48,11 +48,6 @@
   "types": "./typings/vue3.d.ts",
   "module": "vue3/index.es.min.js",
   "unpkg": "vue3/index.es.min.js",
-  "files": [
-    "vue2",
-    "vue3",
-    "typings"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
