@@ -104,6 +104,7 @@ export const createBuildConfig = (
           output: {
             assetFileNames: isIIFE ? undefined : () => `${version}.css`,
             dir: resolve(process.cwd(), `${version}`),
+            exports: 'named',
             globals: { vue: 'Vue' },
           },
         },

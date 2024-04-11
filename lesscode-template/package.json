@@ -7,7 +7,7 @@
   "scripts": {
     "prepublishOnly": "run-p build dts",
     "release": "tsx scripts/release.ts",
-    "dev": "vite -c scripts/vite.dev.ts",
+    "dev": "vite --mode development -c scripts/vite.dev.ts",
     "build": "tsx ./scripts/vite.build.ts",
     "dts": "vue-tsc --project tsconfig.dts.json",
     "prettier": "prettier ./src ./scripts ./playground --write",
@@ -48,30 +48,35 @@
   "types": "./typings/vue3.d.ts",
   "module": "vue3/index.es.min.js",
   "unpkg": "vue3/index.es.min.js",
+  "files": [
+    "vue2",
+    "vue3",
+    "typings"
+  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@blueking/bkui-library": "latest",
-    "bkui-vue": "latest",
+    "@blueking/bkui-library": "^0.0.0-beta.4",
+    "bkui-vue": "^1.0.3-beta.38",
     "dayjs": "^1.11.10",
     "vue": "^3"
   },
   "devDependencies": {
-    "@types/node": "^20.12.5",
+    "@types/node": "^20.12.7",
     "@types/prompts": "^2.4.9",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-tencent": "^1.0.4",
-    "eslint-plugin-codecc": "^1.0.0-beta.1",
+    "eslint-plugin-codecc": "1.0.0-beta.1",
     "eslint-plugin-perfectionist": "^2.8.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-vue": "^9.24.0",
+    "eslint-plugin-vue": "^9.24.1",
     "execa": "^8.0.1",
     "less": "^4.2.0",
     "lint-staged": "^15.2.2",
@@ -94,13 +99,13 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
     "tsx": "^4.7.2",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8",
     "vite-bundle-visualizer": "^1.1.0",
     "vite-plugin-css-injected-by-js": "^3.5.0",
     "vite-plugin-inspect": "^0.8.3",
     "vue-eslint-parser": "^9.4.2",
-    "vue-tsc": "^2.0.11",
+    "vue-tsc": "^2.0.12",
     "zip-a-folder": "^3.1.6"
   },
   "engines": {

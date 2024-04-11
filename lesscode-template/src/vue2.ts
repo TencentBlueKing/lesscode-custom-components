@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 /*
  * Tencent is pleased to support the open source community by making
  * 蓝鲸智云PaaS平台 (BlueKing PaaS) available.
@@ -88,7 +87,7 @@ export default {
     this.app?.mount(this.$el);
   },
   name: 'DatePicker',
-  props: DatePicker.props,
+  props: DatePicker.props || {},
   render(createElement) {
     return createElement('div');
   },
