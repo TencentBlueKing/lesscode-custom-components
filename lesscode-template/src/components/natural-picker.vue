@@ -1,6 +1,7 @@
 <template>
   <div class="natural-picker">
     <Select
+      ref="naturalSelectRef"
       :clearable="false"
       :input-search="false"
       :model-value="getNaturalOptionId(naturalValue)"
@@ -11,19 +12,21 @@
       :search-placeholder="t('请输入')"
       class="natural-date"
       filterable
-      ref="naturalSelectRef"
     >
       <Select.Option
+        v-for="item in naturalOptions"
         :id="getNaturalOptionId(item)"
         :key="getNaturalOptionId(item)"
         :name="item.name"
-        v-for="item in naturalOptions"
       >
         <div
-          @click.prevent.stop
           class="natural-custom-option"
+          @click.prevent.stop
         >
           <Input
+            v-if="canEditNautralId === item.id"
+            ref="inputRef"
+            v-model="inputValue"
             :clearable="false"
             :min="1"
             :placeholder="t('请输入')"
@@ -31,19 +34,16 @@
             :prefix="item.prefix"
             :show-control="true"
             :suffix="item.suffix"
-            @keypress="(v, e) => handleInputKeyPress(e, v, item)"
             autofocus="true"
-            ref="inputRef"
             size="small"
             style="width: 150px"
             type="number"
-            v-if="canEditNautralId === item.id"
-            v-model="inputValue"
+            @keypress="(v, e) => handleInputKeyPress(e, v, item)"
           />
           <div
-            @click="handleClickItem(item)"
-            style="width: 100%"
             v-else
+            style="width: 100%"
+            @click="handleClickItem(item)"
           >
             {{ item.name }}
           </div>
@@ -54,14 +54,14 @@
       :clearable="false"
       :model-value="naturalUnitValue"
       :popover-options="{ boundary: 'parent' }"
-      @change="handleUnitChange"
       class="natural-unit"
+      @change="handleUnitChange"
     >
       <Select.Option
+        v-for="item in naturalUnitOptions"
         :id="item.id"
         :key="item.id"
         :name="item.name"
-        v-for="item in naturalUnitOptions"
       />
     </Select>
     <CommonSubmit @submit="handleSubmit" />

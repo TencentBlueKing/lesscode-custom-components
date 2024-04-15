@@ -3,8 +3,8 @@
     <div class="date-panel-title">
       {{ title }}
       <span
-        @mousedown="handleMouseDown"
         class="title-check"
+        @mousedown="handleMouseDown"
       >
         <Checkbox
           :disabled="diableNow"
@@ -19,12 +19,12 @@
       <div class="date-header">
         <div class="date-header-left">
           <AngleDoubleLeft
-            @click="nextYear(-1)"
             class="hand-icon"
+            @click="nextYear(-1)"
           />
           <AngleLeft
-            @click="nextMonth(-1)"
             class="hand-icon"
+            @click="nextMonth(-1)"
           />
         </div>
         <div class="date-header-center">
@@ -32,31 +32,33 @@
         </div>
         <div class="date-header-right">
           <AngleRight
-            @click="nextMonth(1)"
             class="hand-icon"
+            @click="nextMonth(1)"
           />
           <AngleDoubleRight
-            @click="nextYear(1)"
             class="hand-icon"
+            @click="nextYear(1)"
           />
         </div>
       </div>
       <div class="date-content">
         <ul class="date-grid">
           <li
+            v-for="(day, index) in weekList"
             :key="index"
             class="date-grid-item not-click"
-            v-for="(day, index) in weekList"
           >
             {{ day }}
           </li>
         </ul>
         <ul
+          v-for="row in panelRowCount"
           :key="row"
           class="date-grid"
-          v-for="row in panelRowCount"
         >
           <li
+            v-for="date in panleDateList.slice((row - 1) * weekItemCount, (row - 1) * weekItemCount + weekItemCount)"
+            :key="date.unix()"
             :class="{
               'is-last-month': date.isBefore(curPanelDate, 'month'),
               'is-next-month': date.isAfter(curPanelDate, 'month'),
@@ -64,10 +66,8 @@
               'is-disabled': minDate && date.isBefore(minDate, 'day'),
               'is-selected': props.modelValue && date.isSame(props.modelValue, 'day'),
             }"
-            :key="date.unix()"
-            @click.prevent="handleDateChange(date)"
             class="date-grid-item"
-            v-for="date in panleDateList.slice((row - 1) * weekItemCount, (row - 1) * weekItemCount + weekItemCount)"
+            @click.prevent="handleDateChange(date)"
           >
             {{ date.date() }}
           </li>

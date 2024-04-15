@@ -37,6 +37,6 @@ dayjs.extend(tz);
 dayjs.extend(utc);
 export { DatePicker, dayjs };
 export default DatePicker;
-export * from './utils/date';
 export * from './utils/constant';
+export * from './utils/date';
 export type * from './utils/types';

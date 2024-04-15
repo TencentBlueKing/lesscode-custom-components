@@ -1,27 +1,26 @@
 <template>
   <div class="recent-picker">
     <Input
+      v-model="dateValue"
       :min="1"
       :placeholder="t('请输入')"
       :precision="0"
       :prefix="type === 'now-' ? t('最近') : t('未来')"
       class="recent-input"
       type="number"
-      v-model="dateValue"
-    >
-    </Input>
+    />
     <Select
+      v-model="recentUnit"
       :clearable="false"
       :popover-options="{ boundary: 'parent' }"
       class="recent-unit"
       filterable
-      v-model="recentUnit"
     >
       <Select.Option
+        v-for="item in DateUnitList"
         :id="item.id"
         :key="item.id"
         :name="item.name"
-        v-for="item in DateUnitList"
       />
     </Select>
     <CommonSubmit

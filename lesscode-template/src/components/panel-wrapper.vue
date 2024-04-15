@@ -1,31 +1,31 @@
 <template>
   <div class="panel-wrapper">
     <CommonTab
+      v-model="activePanel"
       :panels="panels"
       :show-delete-all="activePanel === 'recent' && !!recentUseList.length"
       @confirm="handleDeleteConfirm"
-      v-model="activePanel"
     />
     <ul
-      class="common-date-list"
       v-if="dateList.length"
+      class="common-date-list"
     >
       <li
+        v-for="(date, index) in dateList"
+        :key="index"
         :class="{
           'list-item': true,
           'is-recent-item': activePanel === 'recent',
           'is-selected': isSameDateRange(date, defaultDate),
         }"
-        :key="index"
         @click="handleChange(date.dateValue)"
-        v-for="(date, index) in dateList"
       >
         {{ date.toDisplayString() }}
       </li>
     </ul>
     <div
-      class="common-wrapper"
       v-else
+      class="common-wrapper"
     >
       <Exception
         class="empty-content"
@@ -39,8 +39,8 @@
     <CommonTab
       :model-value="activeDatePickTab"
       :panels="datePickTabList"
-      @update:modelValue="handleDateTabChange"
       class="date-pick-tab"
+      @update:model-value="handleDateTabChange"
     />
     <KeepAlive>
       <component
@@ -52,8 +52,8 @@
       />
     </KeepAlive>
     <div
-      class="time-zone-panel"
       v-if="needTimezone"
+      class="time-zone-panel"
     >
       {{ timezoneInfo.label === browserTimezone ? t('浏览器时区') : '' }}
       <span class="time-zone"
@@ -62,16 +62,16 @@
       >
       <span class="time-zone-tag">{{ timezoneInfo.utc }}</span>
       <Button
-        @click="handleToggleTimezoneSet"
         class="time-zone-btn"
         size="small"
+        @click="handleToggleTimezoneSet"
       >
         {{ t('时区设置') }}
       </Button>
     </div>
     <div
-      class="time-zone-picker"
       v-show="timezoneSet"
+      class="time-zone-picker"
     >
       <TimezonePicker
         :value="timezone || browserTimezone"

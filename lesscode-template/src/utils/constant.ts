@@ -24,8 +24,7 @@
  * IN THE SOFTWARE.
  */
 import { t } from '../lang/lang';
-import { DateMode, DateValue } from './index';
-
+import { DateMode, DateValue } from './types';
 export const DateUnitList = [
   {
     id: 's',

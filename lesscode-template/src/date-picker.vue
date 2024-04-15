@@ -7,8 +7,8 @@
     }"
   >
     <span
-      @click="handleClickLeft"
       class="date-icon"
+      @click="handleClickLeft"
     >
       <AngleLeft class="date-icon-left" />
     </span>
@@ -16,20 +16,20 @@
       :arrow="false"
       :is-show="datePanelShow"
       :offset="{ mainAxis: 10, crossAxis: 10, alignmentAxis: -32 }"
-      @after-hidden="handleHidden"
       ext-cls="bk-date-picker-popover __bk-date-picker-popover__"
       placement="bottom-start"
       theme="light"
       trigger="manual"
+      @after-hidden="handleHidden"
     >
       <span
+        ref="dateContentRef"
+        v-clickoutside-directive="handleClickoutside"
         :popoverDelay="[100, 10]"
+        class="date-content"
         @click="handleClickDate"
         @mouseenter="handleDateMouseenter"
         @mouseleave="handleDateMouseleave"
-        class="date-content"
-        ref="dateContentRef"
-        v-clickoutside-directive="handleClickoutside"
       >
         <svg
           class="date-content-icon"
@@ -51,10 +51,11 @@
         </svg>
         <span>{{ dateDetail.toDisplayString() }}</span>
         <span
-          class="date-content-utc"
           v-if="needTimezone && timezoneInfo.label !== dayjs.tz.guess()"
-          >{{ timezoneInfo.abbreviation || timezoneInfo.utc?.replace('UTC', '').replace(':00', '') }}</span
+          class="date-content-utc"
         >
+          {{ timezoneInfo.abbreviation || timezoneInfo.utc?.replace('UTC', '').replace(':00', '') }}
+        </span>
       </span>
       <template #content>
         <PanelWrapper
@@ -67,8 +68,8 @@
       </template>
     </Popover>
     <span
-      @click="handleClickRight"
       class="date-icon"
+      @click="handleClickRight"
     >
       <AngleRight class="date-icon-right" />
     </span>
@@ -81,9 +82,9 @@
     >
       <template #content>
         <div
+          ref="dateTooltipsRef"
           :style="{ maxWidth: lang === 'en' ? '210px' : '156px' }"
           class="__date-tooltips__"
-          ref="dateTooltipsRef"
         >
           <div>{{ tooltipsDetail?.startDisplayText }}</div>
           to
@@ -96,8 +97,8 @@
             }}
           </div>
           <div
-            class="date-tooltips-diff"
             v-if="diffTimezone"
+            class="date-tooltips-diff"
           >
             {{
               t(diffTimezone < 0 ? '时差：晚 $n 小时' : '时差：早 $n 小时').replace(

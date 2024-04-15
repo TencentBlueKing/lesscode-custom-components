@@ -8,42 +8,43 @@
     :placeholder="t('请输入搜索（国家，城市，简称）')"
     :popover-options="{ 'ext-cls': '__bk-date-picker-popover__' }"
     :search-placeholder="t('请输入搜索（国家，城市，简称）')"
-    @change="handleChange"
     class="timezone-picker"
     filterable
+    @change="handleChange"
   >
     <template v-for="group in timezoneData">
-      <Select.Option
-        v-bind="item"
-        :id="item.label"
-        :key="item.label"
-        :name="item.label"
-        v-for="item in group.options"
-        v-if="group.label.length < 1"
-      >
-        <div
-          :class="{
-            'timezone-picker-option': true,
-            'is-selected': item.label === value,
-          }"
+      <template v-if="group.label.length < 1">
+        <Select.Option
+          v-for="item in group.options"
+          v-bind="item"
+          :id="item.label"
+          :key="item.label"
+          :name="item.label"
         >
-          <span class="option-name">{{ t('浏览器时区') }} {{ item.label }}</span>
-          <span class="option-country">{{ item.country }}, {{ item.abbreviation }}</span>
-          <span class="option-utc">{{ item.utc }}</span>
-        </div>
-      </Select.Option>
+          <div
+            :class="{
+              'timezone-picker-option': true,
+              'is-selected': item.label === value,
+            }"
+          >
+            <span class="option-name">{{ t('浏览器时区') }} {{ item.label }}</span>
+            <span class="option-country">{{ item.country }}, {{ item.abbreviation }}</span>
+            <span class="option-utc">{{ item.utc }}</span>
+          </div>
+        </Select.Option>
+      </template>
       <template v-else>
         <Select.Group
+          v-if="group.options.length"
           :key="group.label"
           :label="group.label"
-          v-if="group.options.length"
         >
           <Select.Option
+            v-for="item in group.options"
             v-bind="item"
             :id="item.label"
             :key="item.label"
             :name="item.label"
-            v-for="item in group.options"
           >
             <div
               :class="{

@@ -32,6 +32,7 @@ export const commonDateRegexp = new RegExp(`now([+-]?\\d*)([${dateUnit}]?)\\/?([
 export const recentDateRegexp = new RegExp(`now[-](\\d+)([${dateUnit}]{1})$`);
 export const futureDateRegexp = new RegExp(`now[+](\\d+)([${dateUnit}]{1})$`);
 export const naturalDateRegexp = new RegExp(`now([+-]?\\d*)([${dateUnit}]?)\\/([${dateUnit}])$`);
+
 export class DateRange {
   endDate: Dayjs | null;
   endNum: number | undefined;
@@ -41,7 +42,7 @@ export class DateRange {
   startUnit: DateUnit | undefined;
   constructor(
     public dateValue: DateValue = ['', ''],
-    public format: string = 'YYYY-MM-DD HH:mm:ss',
+    public format = 'YYYY-MM-DD HH:mm:ss',
     public timezome: string = dayjs.tz.guess(),
   ) {
     const [start, end] = dateValue;
@@ -175,18 +176,18 @@ export class DateRange {
     return [
       this.dateMode === DateMode.Date
         ? [
-            this.dateValue[0] === NowConstant ? NowConstant : this.startDate?.valueOf()!,
-            this.dateValue[1] === NowConstant ? NowConstant : this.endDate?.valueOf()!,
+            this.dateValue[0] === NowConstant ? NowConstant : this.startDate!.valueOf(),
+            this.dateValue[1] === NowConstant ? NowConstant : this.endDate!.valueOf(),
           ]
         : [...this.dateValue],
       [
         {
           dayjs: this.startDate,
-          formatText: this.startDate?.format(this.format)!,
+          formatText: this.startDate!.format(this.format),
         },
         {
           dayjs: this.endDate,
-          formatText: this.endDate?.format(this.format)!,
+          formatText: this.endDate!.format(this.format),
         },
       ],
     ];

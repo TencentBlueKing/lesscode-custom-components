@@ -2,25 +2,25 @@
   <div class="common-panel-tab">
     <Tab
       :active="modelValue"
-      @update:active="$event => $emit('update:modelValue', $event)"
       type="unborder-card"
+      @update:active="$event => $emit('update:modelValue', $event)"
     >
       <Tab.TabPanel
+        v-for="item in panels"
         :key="item.id"
         :label="item.name"
         :name="item.id"
-        v-for="item in panels"
       />
     </Tab>
     <PopConfirm
+      v-if="showDeleteAll"
       :cancel-text="t('取消')"
       :confirm-text="t('确定')"
       :content="t('是否清空最近使用？')"
       :trigger="'click'"
       :width="189"
-      @confirm="$emit('confirm')"
       ext-cls="__bk-date-picker-popover__ __bk-date-picker-popover-delete__"
-      v-if="showDeleteAll"
+      @confirm="$emit('confirm')"
     >
       <Del class="delete-all" />
     </PopConfirm>

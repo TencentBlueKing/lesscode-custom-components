@@ -31,7 +31,7 @@ import { DatePicker } from './vue3';
 
 export default {
   beforeDestroy() {
-    this.unWatchStack.forEach((unWatch: Function) => unWatch?.());
+    this.unWatchStack.forEach(unWatch => unWatch?.());
     this.app?.unmount();
   },
   created() {
@@ -40,6 +40,7 @@ export default {
     let datePickerInstance;
     this.app = createApp({
       render() {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         datePickerInstance = this;
         return h(DatePicker, {
           behavior: this.behavior || props.behavior,
@@ -92,6 +93,6 @@ export default {
     return createElement('div');
   },
 };
-export * from './utils/date';
 export * from './utils/constant';
+export * from './utils/date';
 export type * from './utils/types';

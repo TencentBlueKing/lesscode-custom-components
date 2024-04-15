@@ -69,9 +69,9 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-tencent": "^1.0.4",
     "eslint-plugin-codecc": "1.0.0-beta.1",
-    "eslint-plugin-perfectionist": "^2.8.0",
+    "eslint-plugin-perfectionist": "^2.9.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-vue": "^9.24.1",
+    "eslint-plugin-vue": "^9.25.0",
     "execa": "^8.0.1",
     "less": "^4.2.0",
     "lint-staged": "^15.2.2",
@@ -81,11 +81,11 @@
     "postcss-scss": "^4.0.9",
     "prettier": "^3.2.5",
     "prompts": "^2.4.2",
-    "sass": "^1.74.1",
+    "sass": "^1.75.0",
     "semver": "^7.6.0",
     "simple-git-hooks": "^2.11.1",
     "stylelint": "^16.3.1",
-    "stylelint-config-recess-order": "^5.0.0",
+    "stylelint-config-recess-order": "^5.0.1",
     "stylelint-config-recommended-vue": "1.5.0",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-order": "^6.0.4",
@@ -100,7 +100,7 @@
     "vite-plugin-css-injected-by-js": "^3.5.0",
     "vite-plugin-inspect": "^0.8.3",
     "vue-eslint-parser": "^9.4.2",
-    "vue-tsc": "^2.0.12",
+    "vue-tsc": "^2.0.13",
     "zip-a-folder": "^3.1.6"
   },
   "engines": {
@@ -120,8 +120,11 @@
     "*.{js,json}": [
       "prettier --write"
     ],
-    "*.{ts?(x),vue}": [
-      "eslint --fix"
+    "*.ts?(x)": [
+      "npx eslint --fix"
+    ],
+    "*.vue": [
+      "npx eslint --fix"
     ]
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable codecc/comment-ratio */
 /*
  * Tencent is pleased to support the open source community by making
  * 蓝鲸智云PaaS平台 (BlueKing PaaS) available.
@@ -1434,8 +1433,8 @@ export const getTimezoneInfo = (searchIndex: string) => {
 };
 export const timezoneDetails = getTimezoneDetails();
 export const getTimezoneInfoByValue = (value: string) => {
-  return timezoneDetails.reduce((pre: any, group: ITimeZoneGroup) => {
+  return timezoneDetails.reduce((pre: ITimezoneItem | undefined, group: ITimeZoneGroup) => {
     if (pre?.label === value) return pre;
     return group.options.find(option => option.label === value);
-  }, {}) as ITimezoneItem;
+  }, undefined) as ITimezoneItem;
 };

@@ -34,18 +34,19 @@
           trigger="manual"
         >
           <input
+            ref="startInput"
+            v-clickoutside-directive="handleClickoutsideStart"
             :placeholder="t('开始时间')"
             :value="isStartNow ? NowConstant : startDate?.format(format)"
+            class="date-picker-start"
+            spellcheck="false"
             @blur="e => handleInputEnter(e, 'start')"
             @click="handleFocusStart"
             @keypress.enter="e => handleInputEnter(e, 'start')"
-            class="date-picker-start"
-            ref="startInput"
-            spellcheck="false"
-            v-clickoutside-directive="handleClickoutsideStart"
           />
           <template #content>
             <DatePanel
+              key="start"
               :diable-now="isEndNow"
               :format="format"
               :is-now="isStartNow"
@@ -53,7 +54,6 @@
               :title="t('开始时间')"
               @update:is-now="() => handleIsNowChange('start')"
               @update:model-value="handleStartTimeChange"
-              key="start"
             />
           </template>
         </Popover>
@@ -68,17 +68,18 @@
           trigger="manual"
         >
           <input
+            ref="endInput"
+            v-clickoutside-directive="handleClickoutsideEnd"
             :placeholder="t('结束时间')"
             :value="isEndNow ? NowConstant : endDate?.format(format)"
+            class="date-picker-end"
             @blur="e => handleInputEnter(e, 'end')"
             @click="handleFocusEnd"
             @keypress.enter="e => handleInputEnter(e, 'end')"
-            class="date-picker-end"
-            ref="endInput"
-            v-clickoutside-directive="handleClickoutsideEnd"
           />
           <template #content>
             <DatePanel
+              key="end"
               :diable-now="isStartNow"
               :format="format"
               :is-now="isEndNow"
@@ -86,14 +87,13 @@
               :title="t('结束时间')"
               @update:is-now="() => handleIsNowChange('end')"
               @update:model-value="date => handleEndTimeChange(date.endOf('d'))"
-              key="end"
             />
           </template>
         </Popover>
         <Close
-          @click="handleClear"
-          class="date-picker-clear"
           v-if="!!(startDate || endDate)"
+          class="date-picker-clear"
+          @click="handleClear"
         />
       </div>
       <CommonSubmit
@@ -131,8 +131,8 @@
               </thead>
               <tbody>
                 <tr
-                  :key="f"
                   v-for="f in dateFormatList"
+                  :key="f"
                 >
                   <td>{{ f }}</td>
                   <td>{{ today.format(f) }}</td>
@@ -259,9 +259,9 @@ const handleInputEnter = async (_: FocusEvent | KeyboardEvent, type: 'end' | 'st
       if (!editDate?.isSame(date)) {
         curNow.value = val === NowConstant;
         if (type === 'start') {
-          handleStartTimeChange(!startDate ? date.startOf('d') : date);
+          handleStartTimeChange(!startDate.value ? date.startOf('d') : date);
         } else {
-          handleEndTimeChange(!endDate ? date.endOf('d') : date);
+          handleEndTimeChange(!endDate.value ? date.endOf('d') : date);
         }
       }
     }

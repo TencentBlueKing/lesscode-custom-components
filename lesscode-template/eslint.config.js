@@ -6,17 +6,47 @@ const codecc = require('eslint-plugin-codecc');
 const eslintVueParser = require('vue-eslint-parser');
 const perfectionistNatural = require('eslint-plugin-perfectionist/configs/recommended-natural');
 const eslintVuePlugin = require('eslint-plugin-vue');
+const { rules: tencentEslintLegacyRules } = require('eslint-config-tencent/ts'); // Simplifying import
+// Combining deprecated rules into one object to streamline code
+const deprecateRules = Object.fromEntries(
+  [
+    'ban-ts-comment',
+    'block-spacing',
+    'brace-style',
+    'comma-dangle',
+    'comma-spacing',
+    'func-call-spacing',
+    'indent',
+    'key-spacing',
+    'keyword-spacing',
+    'lines-around-comment',
+    'lines-between-class-members',
+    'member-delimiter-style',
+    'no-extra-parens',
+    'no-extra-semi',
+    'padding-line-between-statements',
+    'quotes',
+    'semi',
+    'space-before-blocks',
+    'space-before-function-paren',
+    'space-infix-ops',
+    'type-annotation-spacing',
+  ].map(rule => [`@typescript-eslint/${rule}`, 'off']),
+);
 
 module.exports = [
   {
-    ignores: ['node_modules', 'dist', './vue2/*', './vue3/*'],
+    ignores: ['node_modules', 'dist', 'vue2/*', 'vue3/*'],
   },
   eslintConfigPrettier,
   perfectionistNatural,
   {
-    plugins: {
-      prettier,
+    rules: {
+      'perfectionist/sort-vue-attributes': 'off',
     },
+  },
+  {
+    plugins: { prettier },
     rules: {
       ...prettier.configs.recommended.rules,
     },
@@ -27,13 +57,10 @@ module.exports = [
     languageOptions: {
       parser: typescriptEslintParser,
       parserOptions: {
-        ecmaVersion: 2018,
-        project: './tsconfig.json',
-        sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        ecmaVersion: 'latest',
+        project: true,
       },
     },
-    linterOptions: {},
     plugins: {
       '@typescript-eslint': typescriptEslint,
       codecc,
@@ -70,32 +97,41 @@ module.exports = [
           pattern: '.*Tencent is pleased to support the open source community.+',
         },
       ],
-    },
-    settings: {},
-  },
-  {
-    files: ['src/**/*.vue', 'playground/**/*.vue'],
-    languageOptions: {
-      parser: eslintVueParser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        ecmaVersion: 'latest',
-        extraFileExtensions: ['.vue'],
-        parser: typescriptEslintParser,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-      vue: eslintVuePlugin,
-    },
-    rules: {
-      ...eslintVuePlugin.configs['vue3-recommended'].rules,
-      '@typescript-eslint/explicit-member-accessibility': 'off',
-      '@typescript-eslint/indent': ['error', 2],
-      'comma-dangle': ['error', 'always-multiline'],
-      'vue/attributes-order': 'off',
+      ...typescriptEslint.configs.recommended.rules,
+      ...tencentEslintLegacyRules,
+      ...deprecateRules,
     },
   },
+  ...eslintVuePlugin.configs['flat/recommended'].map(config =>
+    config.files
+      ? {
+          ...config,
+          files: ['src/**/*.vue', 'playground/**/*.vue'],
+          languageOptions: {
+            ...config.languageOptions,
+            parser: eslintVueParser,
+            parserOptions: {
+              ...config.languageOptions.parserOptions,
+              allowAutomaticSingleRunInference: false,
+              ecmaFeatures: { jsx: true, legacyDecorators: true },
+              ecmaVersion: 'latest',
+              extraFileExtensions: ['.vue'],
+              parser: { '<template>': 'espree', ts: typescriptEslintParser },
+              project: true,
+            },
+          },
+          plugins: {
+            '@typescript-eslint': typescriptEslint,
+            vue: eslintVuePlugin,
+          },
+          rules: {
+            ...config.rules,
+            ...tencentEslintLegacyRules,
+            '@typescript-eslint/explicit-member-accessibility': 'off',
+            'comma-dangle': ['error', 'always-multiline'],
+            ...deprecateRules,
+          },
+        }
+      : config,
+  ),
 ];

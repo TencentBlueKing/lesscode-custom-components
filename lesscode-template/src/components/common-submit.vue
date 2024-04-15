@@ -6,16 +6,16 @@
     <Button
       :disabled="disabled"
       :outline="true"
-      @click="$emit('submit')"
       class="common-submit"
       theme="primary"
+      @click="$emit('submit')"
     >
       {{ t('确定') }}
     </Button>
   </Popover>
   <span
-    class="common-favorite"
     v-if="false"
+    class="common-favorite"
   >
     <svg
       class="date-content-icon"
