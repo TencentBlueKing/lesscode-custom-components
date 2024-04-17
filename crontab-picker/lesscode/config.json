@@ -1,0 +1,12 @@
+{
+  "type": "crontab-picker",
+  "name": "crontab-picker",
+  "displayName": "周期选择器",
+  "framework": "vue3",
+  "props": {
+    "modelValue": {
+      "type": "string",
+      "val": ""
+    }
+  }
+}

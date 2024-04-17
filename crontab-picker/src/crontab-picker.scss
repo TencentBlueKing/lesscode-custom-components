@@ -1,0 +1,35 @@
+.__bk_crontab-picker__ {
+  position: relative;
+  .time-describe {
+    display: flex;
+    justify-content: center;
+    .time-text {
+      padding: 0 19px;
+      font-size: 12px;
+      line-height: 22px;
+      color: #c4c6cc;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+  }
+  .time-input {
+    .input {
+      width: 100%;
+      height: 48px;
+      padding: 0 30px;
+      font-size: 24px;
+      line-height: 48px;
+      word-spacing: 30px;
+      color: #63656e;
+      text-align: center;
+      border: 1px solid #3a84ff;
+      border-radius: 2px;
+      outline: none;
+
+      &::selection {
+        color: #3a84ff;
+        background: transparent;
+      }
+    }
+  }
+}
