@@ -26,11 +26,11 @@
 import { getCookieByName } from '../utils/cookie';
 
 export const langData: { [key: string]: string } = {
-  分: 'minute',
-  周: 'day(week)',
-  日: 'day(month)',
-  时: 'hour',
-  月: 'month',
+  分: 'Minute',
+  周: 'Week',
+  日: 'Day',
+  时: 'Hour',
+  月: 'Month',
 } as const;
 
 export const lang = getCookieByName('blueking_language') || 'zh-cn';

@@ -129,5 +129,8 @@
     "*.{ts?(x),vue}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "cron-parser-custom": "^2.13.0"
   }
 }

@@ -1,6 +1,8 @@
 import { defineComponent, ref } from 'vue';
 import { t } from './lang/lang';
+import CronExpression from 'cron-parser-custom';
 import './crontab-picker.scss';
+import { prettyDateTimeFormat } from './utils/time';
 
 const TIME_STRS = [
   { name: t('分'), class: 'minute' },
@@ -36,11 +38,31 @@ export default defineComponent({
     const nativeValue = ref('');
     const selectIndex = ref('');
     const inputRef = ref();
+    const nextTime = ref<string[]>([]);
+    const errorField = ref('');
+    const isError = ref(false);
+    const parseValue = ref([]);
 
     init();
 
     function init() {
       nativeValue.value = props.modelValue;
+    }
+
+    function checkAndTranslate(value: string) {
+      const interval = CronExpression.parse(`0 ${value.trim()}`, {
+        currentDate: new Date(),
+      });
+      let i = 5;
+      const nextTimeTemp = [];
+      while (i > 0) {
+        nextTimeTemp.push(prettyDateTimeFormat(interval.next().toString()));
+        i -= 1;
+      }
+      nextTime.value = nextTimeTemp;
+      errorField.value = '';
+      isError.value = false;
+      parseValue.value = [];
     }
 
     function handleTimeTextChange(label: string) {

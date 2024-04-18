@@ -1,6 +1,8 @@
 <template>
   <div class="app">
-    <CrontabPicker></CrontabPicker>
+    <div class="wrap">
+      <CrontabPicker></CrontabPicker>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -15,5 +17,8 @@ import CrontabPicker from '../src/vue3';
   justify-content: center;
   width: 100%;
   height: 50vh;
+  .wrap {
+    width: 852px;
+  }
 }
 </style>
