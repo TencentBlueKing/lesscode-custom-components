@@ -1,10 +1,16 @@
-import Node from './node';
+import { ENode, Node } from './node';
 
-export const optimze = (fieldMap) => {
-  const isAllValue = node => node.length === 1
-    && node[0].type === Node.TYPE_ENUM
-    && (node[0].value === '*' || node[0].value === '?');
-  const prettyMap = {};
+export const optimze = (fieldMap: {
+  [x: string]: any;
+  month?: any;
+  dayOfMonth?: any;
+  dayOfWeek?: any;
+  hour?: any;
+  minute?: any;
+}) => {
+  const isAllValue = (node: Node | any) =>
+    node.length === 1 && node[0].type === ENode.TYPE_ENUM && (node[0].value === '*' || node[0].value === '?');
+  const prettyMap: { [key: string]: any } = {};
 
   prettyMap.month = isAllValue(fieldMap.month) ? [] : fieldMap.month;
 
@@ -33,11 +39,11 @@ export const optimze = (fieldMap) => {
   return prettyMap;
 };
 
-export const parsetext = (expression) => {
+export const parsetext = (expression: string) => {
   const stack = [];
   const rangReg = /-/;
   const repeatReg = /\//;
-  const atoms = (`${expression}`).trim().split(',');
+  const atoms = `${expression}`.trim().split(',');
   let index = -1;
   // eslint-disable-next-line no-plusplus
   while (++index < atoms.length) {
@@ -46,36 +52,44 @@ export const parsetext = (expression) => {
       // 在指定区间重复
       const [rang, repeatInterval] = enumValue.split('/');
       const [min, max] = rang.split('-');
-      stack.push(new Node({
-        type: Node.TYPE_RANG_REPEAT,
-        min,
-        max,
-        repeatInterval,
-      }));
+      stack.push(
+        new Node({
+          type: ENode.TYPE_RANG_REPEAT,
+          min,
+          max,
+          repeatInterval,
+        }),
+      );
       continue;
     } else if (repeatReg.test(enumValue)) {
       // 从指定起始位置重复
       const [value, repeatInterval] = enumValue.split('/');
-      stack.push(new Node({
-        type: Node.TYPE_REPEAT,
-        value,
-        repeatInterval,
-      }));
+      stack.push(
+        new Node({
+          type: ENode.TYPE_REPEAT,
+          value,
+          repeatInterval,
+        }),
+      );
       continue;
     } else if (rangReg.test(enumValue)) {
       // 指定区间
       const [min, max] = enumValue.split('-');
-      stack.push(new Node({
-        type: Node.TYPE_RANG,
-        min,
-        max,
-      }));
+      stack.push(
+        new Node({
+          type: ENode.TYPE_RANG,
+          min,
+          max,
+        }),
+      );
       continue;
     } else {
-      stack.push(new Node({
-        type: Node.TYPE_ENUM,
-        value: enumValue,
-      }));
+      stack.push(
+        new Node({
+          type: ENode.TYPE_ENUM,
+          value: enumValue,
+        }),
+      );
     }
   }
   return stack;

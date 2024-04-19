@@ -60,10 +60,12 @@
   "peerDependencies": {
     "@blueking/bkui-library": "latest",
     "bkui-vue": "latest",
-    "dayjs": "^1.11.10",
+    "cron-parser-custom": "^2.13.0",
+    "lodash": "^4.17.21",
     "vue": "latest"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.5",
     "@types/prompts": "^2.4.9",
     "@types/semver": "^7.5.8",
@@ -129,8 +131,5 @@
     "*.{ts?(x),vue}": [
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "cron-parser-custom": "^2.13.0"
   }
 }

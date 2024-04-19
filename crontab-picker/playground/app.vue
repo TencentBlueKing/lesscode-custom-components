@@ -1,12 +1,14 @@
 <template>
   <div class="app">
     <div class="wrap">
-      <CrontabPicker></CrontabPicker>
+      <CrontabPicker v-model="value"></CrontabPicker>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
 import CrontabPicker from '../src/vue3';
+const value = ref('* * * * *');
 </script>
 
 <style lang="scss">

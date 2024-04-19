@@ -15,14 +15,14 @@ const fieldList = [
   'dayOfWeek',
 ];
 
-const print = (expression) => {
+const print = (expression: any) => {
   const atoms = (`${expression}`).trim().split(/\s+/);
-  const fieldMap = {};
+  const fieldMap: { [key: string]: any } = {};
   atoms.forEach((item, index) => {
     fieldMap[fieldList[index]] = parsetext(item);
   });
   const ast = optimze(fieldMap);
-  return lang !== 'en' ? translateCN(ast) : translateEN(ast);
+  return lang !== 'en' ? translateCN(ast as any) : translateEN(ast as any);
 };
 
-export default expression => print(expression);
+export default (expression: string) => print(expression);

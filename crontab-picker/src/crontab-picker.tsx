@@ -1,8 +1,11 @@
 import { defineComponent, ref } from 'vue';
-import { t } from './lang/lang';
+import { t, lang } from './lang/lang';
 import CronExpression from 'cron-parser-custom';
 import './crontab-picker.scss';
 import { prettyDateTimeFormat } from './utils/time';
+import Translate from './utils/translate';
+import { AngleDoubleLeft } from 'bkui-vue/lib/icon';
+import { debounce, trim } from 'lodash';
 
 const TIME_STRS = [
   { name: t('分'), class: 'minute' },
@@ -33,20 +36,25 @@ export default defineComponent({
       default: '',
     },
   },
-  emits: ['update:modelValue'],
-  setup(props) {
+  emits: ['update:modelValue', 'change', 'input'],
+  setup(props, { emit }) {
     const nativeValue = ref('');
-    const selectIndex = ref('');
+    const selectIndex = ref<string | number>('');
     const inputRef = ref();
     const nextTime = ref<string[]>([]);
     const errorField = ref('');
     const isError = ref(false);
-    const parseValue = ref([]);
+    const parseValue = ref<string[]>([]);
+
+    const handleInputDebounce = debounce(handleInput, 200);
 
     init();
 
     function init() {
       nativeValue.value = props.modelValue;
+      if (!!nativeValue.value) {
+        checkAndTranslate(nativeValue.value);
+      }
     }
 
     function checkAndTranslate(value: string) {
@@ -62,7 +70,8 @@ export default defineComponent({
       nextTime.value = nextTimeTemp;
       errorField.value = '';
       isError.value = false;
-      parseValue.value = [];
+      parseValue.value = Translate(value);
+      console.log(parseValue.value);
     }
 
     function handleTimeTextChange(label: string) {
@@ -86,26 +95,116 @@ export default defineComponent({
 
     function handleBlur() {}
 
-    function handleInput() {}
+    function handleInput(event: Event | any) {
+      console.log(event);
+      const { value } = event.target;
+      nativeValue.value = value;
+      try {
+        checkAndTranslate(value);
+        emit('update:modelValue', value);
+        emit('change', value);
+        emit('input', value);
+      } catch (error: any) {
+        parseValue.value = [];
+        nextTime.value = [];
+        const all = ['minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'];
+        if (all.includes(error.message)) {
+          errorField.value = error.message;
+        }
+        isError.value = true;
+        emit('update:modelValue', '');
+        emit('change', '');
+        emit('input', '');
+      }
+    }
 
-    function handleSelectText() {}
+    function handleSelectText(event: Event | any) {
+      if (
+        !(event.type === 'mousedown' || (event.type === 'keyup' && ['ArrowLeft', 'ArrowRight'].includes(event.code)))
+      ) {
+        return;
+      }
+      const $target = event.target;
+      const value = trim($target.value);
+      nativeValue.value = value;
+      if (!value) return;
+      setTimeout(() => {
+        const cursorStart = $target.selectionStart;
+        const cursorStr = value.slice(0, cursorStart);
+        const checkBackspce = cursorStr.match(/ /g);
+        if (checkBackspce) {
+          selectIndex.value = labelIndexMap[checkBackspce.length];
+        } else {
+          selectIndex.value = labelIndexMap['0'];
+        }
+      })
+    }
+
+    function renderText() {
+      if (parseValue.value.length > 1) {
+        if (lang !== 'en') {
+          return (
+            <div class='time-parse'>
+              {[
+                parseValue.value[4] ? <span class='month'>{parseValue.value[4]}</span> : undefined,
+                parseValue.value[1] ? <span class='dayOfMonth'>{parseValue.value[2]}</span> : undefined,
+                parseValue.value[1] && parseValue.value[3] ? <span>以及当月</span> : undefined,
+                parseValue.value[3] ? <span class='dayOfWeek'>{parseValue.value[3]}</span> : undefined,
+                parseValue.value[2] ? <span class='hour'>{parseValue.value[1]}</span> : undefined,
+                <span class='minute'>{parseValue.value[0]}</span>,
+              ]}
+            </div>
+          );
+        } else {
+          return (
+            <div class='time-parse'>
+              {[
+                parseValue.value[1] && /^At/.test(parseValue.value[1]) ? (
+                  <>
+                    <span class='hour'>{parseValue.value[1]}</span>
+                    <span class='minute'>{parseValue.value[0]}</span>
+                  </>
+                ) : (
+                  <>
+                    <span class='minute'>{parseValue.value[0]}</span>
+                    {parseValue.value[1] ? <span class='hour'>{parseValue.value[1]}</span> : undefined}
+                  </>
+                ),
+                parseValue.value[2] ? <span class='dayOfMonth'> {parseValue.value[2]}</span> : undefined,
+                parseValue.value[3] ? <span class='dayOfWeek'> {parseValue.value[3]}</span> : undefined,
+                parseValue.value[4] ? <span class='month'> {parseValue.value[4]}</span> : undefined,
+              ]}
+            </div>
+          );
+        }
+      }
+      return undefined;
+    }
 
     return {
       inputRef,
       nativeValue,
+      nextTime,
+      selectIndex,
+      errorField,
+      isError,
       handleTimeTextChange,
       handleBlur,
-      handleInput,
+      handleInputDebounce,
       handleSelectText,
+      renderText,
     };
   },
   render() {
     return (
-      <div class='__bk_crontab-picker__'>
+      <div class={['__bk_crontab-picker__',
+      { 'is-error': this.isError },
+      `select-${this.selectIndex}`,
+      `error-${this.errorField}`]}>
         <div class='time-describe'>
           {TIME_STRS.map(item => (
             <span
-              class={[item.class, 'time-text']}
+              class={['time-text', item.class]}
               onClick={() => this.handleTimeTextChange(item.class)}
             >
               {item.name}
@@ -119,11 +218,25 @@ export default defineComponent({
             type='text'
             value={this.nativeValue}
             onBlur={this.handleBlur}
-            onInput={this.handleInput}
+            onInput={this.handleInputDebounce}
             onKeyup={this.handleSelectText}
             onMousedown={this.handleSelectText}
           ></input>
         </div>
+        {this.renderText()}
+        {this.nextTime.length ? (
+          <div class='time-next'>
+            <div class='label'>{t('下次')}</div>
+            <div class='value'>
+              {this.nextTime.map((time, index) => (
+                <div key={`${time}${index}`}>{time}</div>
+              ))}
+            </div>
+            <div class='arrow'>
+              <AngleDoubleLeft class='arrow-button'></AngleDoubleLeft>
+            </div>
+          </div>
+        ) : undefined}
       </div>
     );
   },
