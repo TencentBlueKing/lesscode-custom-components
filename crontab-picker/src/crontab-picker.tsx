@@ -12,7 +12,7 @@ const TIME_STRS = [
   { name: t('时'), class: 'hour' },
   { name: t('日'), class: 'dayOfMonth' },
   { name: t('月'), class: 'month' },
-  { name: t('周'), class: 'minute' },
+  { name: t('周'), class: 'dayOfWeek' },
 ];
 
 const labelIndexMap: { [key: string | number]: string | number } = {
@@ -45,6 +45,7 @@ export default defineComponent({
     const errorField = ref('');
     const isError = ref(false);
     const parseValue = ref<string[]>([]);
+    const isTimeMore = ref(false);
 
     const handleInputDebounce = debounce(handleInput, 200);
 
@@ -85,12 +86,10 @@ export default defineComponent({
       }
       const preStrLength = timeItem.slice(0, index).join('').length + index;
       const endPosition = preStrLength + timeItem[index].length;
-      setTimeout(() => {
-        selectIndex.value = label;
-        inputRef.value.focus();
-        inputRef.value.selectionStart = preStrLength;
-        inputRef.value.selectionEnd = endPosition;
-      });
+      selectIndex.value = label;
+      inputRef.value.focus();
+      inputRef.value.selectionStart = preStrLength;
+      inputRef.value.selectionEnd = endPosition;
     }
 
     function handleBlur() {}
@@ -137,7 +136,11 @@ export default defineComponent({
         } else {
           selectIndex.value = labelIndexMap['0'];
         }
-      })
+      });
+    }
+
+    function handleShowMore() {
+      isTimeMore.value = !isTimeMore.value;
     }
 
     function renderText() {
@@ -188,19 +191,25 @@ export default defineComponent({
       selectIndex,
       errorField,
       isError,
+      isTimeMore,
       handleTimeTextChange,
       handleBlur,
       handleInputDebounce,
       handleSelectText,
       renderText,
+      handleShowMore,
     };
   },
   render() {
     return (
-      <div class={['__bk_crontab-picker__',
-      { 'is-error': this.isError },
-      `select-${this.selectIndex}`,
-      `error-${this.errorField}`]}>
+      <div
+        class={[
+          '__bk_crontab-picker__',
+          { 'is-error': this.isError },
+          `select-${this.selectIndex}`,
+          `error-${this.errorField}`,
+        ]}
+      >
         <div class='time-describe'>
           {TIME_STRS.map(item => (
             <span
@@ -213,7 +222,7 @@ export default defineComponent({
         </div>
         <div class='time-input'>
           <input
-            ref={this.inputRef}
+            ref='inputRef'
             class='input'
             type='text'
             value={this.nativeValue}
@@ -225,14 +234,14 @@ export default defineComponent({
         </div>
         {this.renderText()}
         {this.nextTime.length ? (
-          <div class='time-next'>
+          <div class={['time-next', { active: this.isTimeMore }]}>
             <div class='label'>{t('下次')}</div>
             <div class='value'>
               {this.nextTime.map((time, index) => (
                 <div key={`${time}${index}`}>{time}</div>
               ))}
             </div>
-            <div class='arrow'>
+            <div class='arrow' onClick={this.handleShowMore}>
               <AngleDoubleLeft class='arrow-button'></AngleDoubleLeft>
             </div>
           </div>
