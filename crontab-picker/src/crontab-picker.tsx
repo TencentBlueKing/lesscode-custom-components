@@ -63,7 +63,7 @@ export default defineComponent({
         currentDate: new Date(),
       });
       let i = 5;
-      const nextTimeTemp = [];
+      const nextTimeTemp: string[] = [];
       while (i > 0) {
         nextTimeTemp.push(prettyDateTimeFormat(interval.next().toString()));
         i -= 1;

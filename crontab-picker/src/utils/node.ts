@@ -5,18 +5,18 @@ export enum ENode {
   TYPE_RANG_REPEAT = 4
 }
 interface INode {
-  type: ENode;
-  value?: string | number;
-  min: string |number;
-  max: string | number;
-  repeatInterval: string | number
+  type?: ENode;
+  value?: string;
+  min?: string;
+  max?: string;
+  repeatInterval?: string;
 }
 export class Node {
   type = 0;
-  value = '';
+  value: string = '';
   min = '';
   max = '';
-  repeatInterval = 0;
+  repeatInterval = '';
   constructor({
     type,
     value,
@@ -24,10 +24,10 @@ export class Node {
     max,
     repeatInterval,
   }: INode) {
-    this.type = type;
+    this.type = type || 0;
     this.value = value || '';
-    this.min = min;
-    this.max = max;
-    this.repeatInterval = repeatInterval;
+    this.min = min || '';
+    this.max = max || '';
+    this.repeatInterval = repeatInterval || '';
   }
 }

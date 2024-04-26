@@ -30,7 +30,7 @@ const getWeekDayValue = (value: string | number) => {
   return value;
 };
 
-const getHourValue = (value: number) => {
+const getHourValue = (value: number | string) => {
   const num = ~~value;
   if (num < 5) {
     return `凌晨${num}点`;
@@ -47,7 +47,7 @@ const getHourValue = (value: number) => {
   return `晚上${num}点`;
 };
 
-const getMinuteValue = (value: number) => {
+const getMinuteValue = (value: number | string) => {
   const num = ~~value;
   if (num < 10) {
     return `0${num}`;

@@ -40,12 +40,11 @@ export const optimze = (fieldMap: {
 };
 
 export const parsetext = (expression: string) => {
-  const stack = [];
+  const stack: Node[] = [];
   const rangReg = /-/;
   const repeatReg = /\//;
   const atoms = `${expression}`.trim().split(',');
   let index = -1;
-  // eslint-disable-next-line no-plusplus
   while (++index < atoms.length) {
     const enumValue = atoms[index];
     if (rangReg.test(enumValue) && repeatReg.test(enumValue)) {

@@ -15,7 +15,7 @@ const fieldList = [
   'dayOfWeek',
 ];
 
-const print = (expression: any) => {
+const print = (expression: string) => {
   const atoms = (`${expression}`).trim().split(/\s+/);
   const fieldMap: { [key: string]: any } = {};
   atoms.forEach((item, index) => {

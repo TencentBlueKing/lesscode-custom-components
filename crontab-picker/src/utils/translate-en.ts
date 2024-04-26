@@ -22,7 +22,7 @@ const weekDesDayMap: { [key: string]: string } = {
   sat: 'Sunday',
 };
 
-const dayMap: { [key: number]: string } = {
+const dayMap: { [key: number | string]: string } = {
   1: 'January',
   2: 'February',
   3: 'March',
@@ -49,7 +49,7 @@ const getWeekDayValue = (value: string | number) => {
 };
 
 
-const getMonthValue = (value: number) => dayMap[value];
+const getMonthValue = (value: number | string) => dayMap[value];
 
 const getRepeatIntervalueText = (value: string | number) => {
   if (parseInt(value as string, 10) === 1) {
