@@ -1,5 +1,5 @@
 import { ENode, Node } from './node';
-const weekDayMap: { [key: number]: string } = {
+const weekDayMap: Record<number | string, string> = {
   0: '日',
   1: '一',
   2: '二',
@@ -9,7 +9,7 @@ const weekDayMap: { [key: number]: string } = {
   6: '六',
   7: '日',
 };
-const weekDesDayMap: { [key: string]: string } = {
+const weekDesDayMap: Record<string, string> = {
   sun: '日',
   mon: '一',
   tue: '二',
@@ -20,8 +20,8 @@ const weekDesDayMap: { [key: string]: string } = {
 };
 
 const getWeekDayValue = (value: string | number) => {
-  if (weekDayMap[value as number]) {
-    return weekDayMap[value as number];
+  if (weekDayMap[value]) {
+    return weekDayMap[value];
   }
   const text = value.toString().toLowerCase();
   if (weekDesDayMap[text]) {
@@ -58,26 +58,26 @@ const getMinuteValue = (value: number | string) => {
 const translateMap: { [key: string]: any } = {
   minute: {
     genAll: () => '每分钟',
-    [ENode.TYPE_ENUM]: (node: Node) => `${getMinuteValue(node.value as unknown as number)}分`,
+    [ENode.TYPE_ENUM]: (node: Node) => `${getMinuteValue(node.value)}分`,
     [ENode.TYPE_RANG]:  (node: Node) => `${getMinuteValue(node.min)}分到${getMinuteValue(node.max)}分`,
     [ENode.TYPE_REPEAT]: (node: Node) => {
       if (node.value === '*') {
         return `每隔${node.repeatInterval}分钟`;
       }
-      return `从${getMinuteValue(node.value as unknown as number)}分开始每隔${node.repeatInterval}分钟`;
+      return `从${getMinuteValue(node.value)}分开始每隔${node.repeatInterval}分钟`;
     },
     // eslint-disable-next-line max-len
     [ENode.TYPE_RANG_REPEAT]: (node: Node) => `从${getMinuteValue(node.min)}分开始到${getMinuteValue(node.max)}分的每${node.repeatInterval}分钟`,
   },
   hour: {
     genAll: () => '每小时',
-    [ENode.TYPE_ENUM]: (node: Node) => `${getHourValue(node.value as unknown as number)}`,
+    [ENode.TYPE_ENUM]: (node: Node) => `${getHourValue(node.value)}`,
     [ENode.TYPE_RANG]: (node: Node) => `${getHourValue(node.min)}到${getHourValue(node.max)}`,
     [ENode.TYPE_REPEAT]: (node: Node) => {
       if (node.value === '*') {
         return `每隔${node.repeatInterval}个小时`;
       }
-      return `从${getHourValue(node.value as unknown as number)}开始每隔${node.repeatInterval}个小时`;
+      return `从${getHourValue(node.value)}开始每隔${node.repeatInterval}个小时`;
     },
     // eslint-disable-next-line max-len
     [ENode.TYPE_RANG_REPEAT]: (node: Node) => `从${getHourValue(node.min)}开始到${getHourValue(node.max)}的每${node.repeatInterval}个小时`,
@@ -123,8 +123,8 @@ const translateMap: { [key: string]: any } = {
   },
 };
 
-export default (ast: { minute: string | any[]; hour: string | any[]; }) => {
-  const concatTextNew = (ast: { [x: string]: any; minute?: string | any[]; hour?: string | any[]; }, field: string) => {
+export default (ast: Record<string, Node[]>) => {
+  const concatTextNew = (ast: Record<string, Node[]>, field: string) => {
     if (!Object.prototype.hasOwnProperty.call(ast, field)) {
       return '';
     }

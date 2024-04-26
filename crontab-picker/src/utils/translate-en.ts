@@ -1,7 +1,7 @@
 import { ENode, Node } from './node';
 import { ordinalSuffixOf } from './utils';
 
-const weekDayMap: { [key: number]: string } = {
+const weekDayMap: Record<number, string> = {
   0: 'Sunday',
   1: 'Monday',
   2: 'Tuesday',
@@ -12,7 +12,7 @@ const weekDayMap: { [key: number]: string } = {
   7: 'Sunday',
 };
 
-const weekDesDayMap: { [key: string]: string } = {
+const weekDesDayMap: Record<string, string> = {
   sun: 'Sunday',
   mon: 'Monday',
   tue: 'Tuesday',
@@ -22,7 +22,7 @@ const weekDesDayMap: { [key: string]: string } = {
   sat: 'Sunday',
 };
 
-const dayMap: { [key: number | string]: string } = {
+const dayMap: Record<number | string, string> = {
   1: 'January',
   2: 'February',
   3: 'March',
@@ -66,7 +66,7 @@ const formatNumber = (value: string | number) => {
   return num;
 };
 
-const translateMap: { [key: string]: any } = {
+const translateMap: Record<string, any> = {
   minute: {
     genAll: () => 'every minute',
     [ENode.TYPE_ENUM]: (node: Node) => `${node.value}`,
@@ -108,13 +108,13 @@ const translateMap: { [key: string]: any } = {
   },
   month: {
     genAll: () => '',
-    [ENode.TYPE_ENUM]: (node: Node) => `${getMonthValue(node.value as unknown as number)}`,
+    [ENode.TYPE_ENUM]: (node: Node) => `${getMonthValue(node.value)}`,
     [ENode.TYPE_RANG]: (node: Node) => `every month from ${getMonthValue(node.min)} through ${getMonthValue(node.max)}`,
     [ENode.TYPE_REPEAT]: (node: Node) => {
       if (node.value === '*') {
         return `every${getRepeatIntervalueText(node.repeatInterval)}month`;
       }
-      return `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.value as unknown as number)} through December`;
+      return `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.value)} through December`;
     },
     // eslint-disable-next-line max-len
     [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.min)} through ${getMonthValue(node.max)}`,
@@ -134,12 +134,12 @@ const translateMap: { [key: string]: any } = {
   },
 };
 
-export default (ast: { minute: string | any[]; hour: string | any[]; }) => {
-  const concatTextNew = (ast: { [x: string]: any; minute?: string | any[]; hour?: string | any[]; }, field: string, prefix: string, unit: string) => {
+export default (ast: Record<string, Node[]>) => {
+  const concatTextNew = (ast: Record<string, Node[]>, field: string, prefix: string, unit: string) => {
     if (!Object.prototype.hasOwnProperty.call(ast, field)) {
       return '';
     }
-    const sequence = ast[field];
+    const sequence: Node[] = ast[field];
     const translate = translateMap[field];
     if (sequence.length < 1) {
       const all = translate.genAll();
@@ -151,7 +151,7 @@ export default (ast: { minute: string | any[]; hour: string | any[]; }) => {
       start = `${start} ${unit}`;
     }
 
-    const stack = sequence.map((node: { type: string | number; }) => translate[node.type](node));
+    const stack = sequence.map((node) => translate[node.type](node));
     if (stack.length < 2) {
       return `${start} ${stack.join('')}`;
     }

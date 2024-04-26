@@ -1,16 +1,9 @@
 import { ENode, Node } from './node';
 
-export const optimze = (fieldMap: {
-  [x: string]: any;
-  month?: any;
-  dayOfMonth?: any;
-  dayOfWeek?: any;
-  hour?: any;
-  minute?: any;
-}) => {
-  const isAllValue = (node: Node | any) =>
+export const optimze = (fieldMap: Record<string, Node[]>) => {
+  const isAllValue = (node: Node[]) =>
     node.length === 1 && node[0].type === ENode.TYPE_ENUM && (node[0].value === '*' || node[0].value === '?');
-  const prettyMap: { [key: string]: any } = {};
+  const prettyMap: Record<string, Node[]> = {};
 
   prettyMap.month = isAllValue(fieldMap.month) ? [] : fieldMap.month;
 
