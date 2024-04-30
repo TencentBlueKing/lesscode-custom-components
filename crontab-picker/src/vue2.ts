@@ -43,6 +43,11 @@ export default {
         instance = this;
         return h(CrontabPicker, {
           ref: 'crontabPickerRef',
+          modelValue: this.modelValue || props.modelValue,
+          'onUpdate:modelValue'() {
+            emit('update:modelValue', ...arguments);
+            emit('change', ...arguments);
+          },
         });
       },
     });

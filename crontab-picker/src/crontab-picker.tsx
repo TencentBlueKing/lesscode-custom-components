@@ -58,6 +58,10 @@ export default defineComponent({
       }
     }
 
+    /**
+     * @description 检测crontab格式和翻译
+     * @param value 
+     */
     function checkAndTranslate(value: string) {
       const interval = CronExpression.parse(`0 ${value.trim()}`, {
         currentDate: new Date(),
@@ -72,9 +76,13 @@ export default defineComponent({
       errorField.value = '';
       isError.value = false;
       parseValue.value = Translate(value);
-      console.log(parseValue.value);
     }
 
+    /**
+     * @description 选中crontab字段
+     * @param label  选中的字段名
+     * @returns 
+     */
     function handleTimeTextChange(label: string) {
       if (!nativeValue.value) {
         return;
@@ -92,10 +100,18 @@ export default defineComponent({
       inputRef.value.selectionEnd = endPosition;
     }
 
-    function handleBlur() {}
+    /**
+     * @description 失去焦点
+     */
+    function handleBlur() {
+      selectIndex.value = '';
+    }
 
+    /**
+     * @description 输入框输入
+     * @param event 
+     */
     function handleInput(event: Event | any) {
-      console.log(event);
       const { value } = event.target;
       nativeValue.value = value;
       try {
@@ -117,6 +133,11 @@ export default defineComponent({
       }
     }
 
+    /**
+     * @description 选中输入框文本
+     * @param event 
+     * @returns 
+     */
     function handleSelectText(event: Event | any) {
       if (
         !(event.type === 'mousedown' || (event.type === 'keyup' && ['ArrowLeft', 'ArrowRight'].includes(event.code)))
@@ -139,6 +160,9 @@ export default defineComponent({
       });
     }
 
+    /**
+     * @description 展示下次执行时间列表
+     */
     function handleShowMore() {
       isTimeMore.value = !isTimeMore.value;
     }
@@ -235,7 +259,7 @@ export default defineComponent({
         {this.renderText()}
         {this.nextTime.length ? (
           <div class={['time-next', { active: this.isTimeMore }]}>
-            <div class='label'>{t('下次')}</div>
+            <div class='label'>{t('下次')}：</div>
             <div class='value'>
               {this.nextTime.map((time, index) => (
                 <div key={`${time}${index}`}>{time}</div>

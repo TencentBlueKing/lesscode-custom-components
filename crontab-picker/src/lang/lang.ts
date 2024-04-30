@@ -31,6 +31,7 @@ export const langData: { [key: string]: string } = {
   日: 'Day',
   时: 'Hour',
   月: 'Month',
+  下次: 'Next',
 } as const;
 
 export const lang = getCookieByName('blueking_language') || 'zh-cn';

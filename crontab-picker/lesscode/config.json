@@ -6,7 +6,18 @@
   "props": {
     "modelValue": {
       "type": "string",
-      "val": ""
+      "val": "",
+      "tips": "周期表达式"
     }
-  }
+  },
+  "events": [
+    {
+      "name": "update:modelValue",
+      "tips": "周期表达式更改时触发的事件"
+    },
+    {
+      "name": "change",
+      "tips": "周期表达式更改时触发的事件"
+    }
+  ]
 }
