@@ -61,7 +61,6 @@
     "@blueking/bkui-library": "latest",
     "bkui-vue": "latest",
     "cron-parser-custom": "^2.13.0",
-    "lodash": "^4.17.21",
     "vue": "latest"
   },
   "devDependencies": {

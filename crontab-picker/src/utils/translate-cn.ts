@@ -1,3 +1,29 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+/*
+ * Tencent is pleased to support the open source community by making
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) available.
+ *
+ * Copyright (C) 2021 THL A29 Limited, a Tencent company.  All rights reserved.
+ *
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) is licensed under the MIT License.
+ *
+ * License for 蓝鲸智云PaaS平台 (BlueKing PaaS):
+ *
+ * ---------------------------------------------------
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
 import { ENode, Node } from './node';
 const weekDayMap: Record<number | string, string> = {
   0: '日',
@@ -59,7 +85,7 @@ const translateMap: { [key: string]: any } = {
   minute: {
     genAll: () => '每分钟',
     [ENode.TYPE_ENUM]: (node: Node) => `${getMinuteValue(node.value)}分`,
-    [ENode.TYPE_RANG]:  (node: Node) => `${getMinuteValue(node.min)}分到${getMinuteValue(node.max)}分`,
+    [ENode.TYPE_RANG]: (node: Node) => `${getMinuteValue(node.min)}分到${getMinuteValue(node.max)}分`,
     [ENode.TYPE_REPEAT]: (node: Node) => {
       if (node.value === '*') {
         return `每隔${node.repeatInterval}分钟`;
@@ -67,7 +93,8 @@ const translateMap: { [key: string]: any } = {
       return `从${getMinuteValue(node.value)}分开始每隔${node.repeatInterval}分钟`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `从${getMinuteValue(node.min)}分开始到${getMinuteValue(node.max)}分的每${node.repeatInterval}分钟`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `从${getMinuteValue(node.min)}分开始到${getMinuteValue(node.max)}分的每${node.repeatInterval}分钟`,
   },
   hour: {
     genAll: () => '每小时',
@@ -80,7 +107,8 @@ const translateMap: { [key: string]: any } = {
       return `从${getHourValue(node.value)}开始每隔${node.repeatInterval}个小时`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `从${getHourValue(node.min)}开始到${getHourValue(node.max)}的每${node.repeatInterval}个小时`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `从${getHourValue(node.min)}开始到${getHourValue(node.max)}的每${node.repeatInterval}个小时`,
   },
   dayOfMonth: {
     genAll: () => '每天',
@@ -119,7 +147,8 @@ const translateMap: { [key: string]: any } = {
       return `从每周${getWeekDayValue(node.value)}开始每隔${node.repeatInterval}天`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `从每周${getWeekDayValue(node.min)}开始到周${getWeekDayValue(node.max)}的每隔${node.repeatInterval}天`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `从每周${getWeekDayValue(node.min)}开始到周${getWeekDayValue(node.max)}的每隔${node.repeatInterval}天`,
   },
 };
 

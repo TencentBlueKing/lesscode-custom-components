@@ -1,3 +1,29 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+/*
+ * Tencent is pleased to support the open source community by making
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) available.
+ *
+ * Copyright (C) 2021 THL A29 Limited, a Tencent company.  All rights reserved.
+ *
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) is licensed under the MIT License.
+ *
+ * License for 蓝鲸智云PaaS平台 (BlueKing PaaS):
+ *
+ * ---------------------------------------------------
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
 import { ENode, Node } from './node';
 import { ordinalSuffixOf } from './utils';
 
@@ -48,7 +74,6 @@ const getWeekDayValue = (value: string | number) => {
   return value;
 };
 
-
 const getMonthValue = (value: number | string) => dayMap[value];
 
 const getRepeatIntervalueText = (value: string | number) => {
@@ -78,7 +103,8 @@ const translateMap: Record<string, any> = {
       return `every${getRepeatIntervalueText(node.repeatInterval)}minute from ${node.value} through 59`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}minute from ${node.min} through ${node.max}`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `every${getRepeatIntervalueText(node.repeatInterval)}minute from ${node.min} through ${node.max}`,
   },
   hour: {
     genAll: () => '',
@@ -91,7 +117,8 @@ const translateMap: Record<string, any> = {
       return `every${getRepeatIntervalueText(node.repeatInterval)}hour from ${node.value} through 23`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}hour from ${node.min} through ${node.max}`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `every${getRepeatIntervalueText(node.repeatInterval)}hour from ${node.min} through ${node.max}`,
   },
   dayOfMonth: {
     genAll: () => '',
@@ -104,7 +131,8 @@ const translateMap: Record<string, any> = {
       return `every${getRepeatIntervalueText(node.repeatInterval)}day-of-month from ${node.value} through 31`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}day-of-month from ${node.min} through ${node.max}`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `every${getRepeatIntervalueText(node.repeatInterval)}day-of-month from ${node.min} through ${node.max}`,
   },
   month: {
     genAll: () => '',
@@ -117,12 +145,14 @@ const translateMap: Record<string, any> = {
       return `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.value)} through December`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.min)} through ${getMonthValue(node.max)}`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `every${getRepeatIntervalueText(node.repeatInterval)}month from ${getMonthValue(node.min)} through ${getMonthValue(node.max)}`,
   },
   dayOfWeek: {
     genAll: () => '',
     [ENode.TYPE_ENUM]: (node: Node) => `${getWeekDayValue(node.value)}`,
-    [ENode.TYPE_RANG]: (node: Node) => `every day-of-week ${getWeekDayValue(node.min)} through ${getWeekDayValue(node.max)}`,
+    [ENode.TYPE_RANG]: (node: Node) =>
+      `every day-of-week ${getWeekDayValue(node.min)} through ${getWeekDayValue(node.max)}`,
     [ENode.TYPE_REPEAT]: (node: Node) => {
       if (node.value === '*') {
         return `every${getRepeatIntervalueText(node.repeatInterval)}day-of-week`;
@@ -130,7 +160,8 @@ const translateMap: Record<string, any> = {
       return `every${getRepeatIntervalueText(node.repeatInterval)}day-of-week from ${getWeekDayValue(node.value)} through Sunday`;
     },
     // eslint-disable-next-line max-len
-    [ENode.TYPE_RANG_REPEAT]: (node: Node) => `every${getRepeatIntervalueText(node.repeatInterval)}day-of-week from ${getWeekDayValue(node.min)} through ${getWeekDayValue(node.max)}`,
+    [ENode.TYPE_RANG_REPEAT]: (node: Node) =>
+      `every${getRepeatIntervalueText(node.repeatInterval)}day-of-week from ${getWeekDayValue(node.min)} through ${getWeekDayValue(node.max)}`,
   },
 };
 
@@ -151,7 +182,7 @@ export default (ast: Record<string, Node[]>) => {
       start = `${start} ${unit}`;
     }
 
-    const stack = sequence.map((node) => translate[node.type](node));
+    const stack = sequence.map(node => translate[node.type](node));
     if (stack.length < 2) {
       return `${start} ${stack.join('')}`;
     }

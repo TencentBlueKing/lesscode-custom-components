@@ -1,3 +1,29 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+/*
+ * Tencent is pleased to support the open source community by making
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) available.
+ *
+ * Copyright (C) 2021 THL A29 Limited, a Tencent company.  All rights reserved.
+ *
+ * 蓝鲸智云PaaS平台 (BlueKing PaaS) is licensed under the MIT License.
+ *
+ * License for 蓝鲸智云PaaS平台 (BlueKing PaaS):
+ *
+ * ---------------------------------------------------
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
 import { defineComponent, ref } from 'vue';
 import { t, lang } from './lang/lang';
 import CronExpression from 'cron-parser-custom';
@@ -5,7 +31,7 @@ import './crontab-picker.scss';
 import { prettyDateTimeFormat } from './utils/time';
 import Translate from './utils/translate';
 import { AngleDoubleLeft } from 'bkui-vue/lib/icon';
-import { debounce, trim } from 'lodash';
+import { debounce } from './utils/utils';
 
 const TIME_STRS = [
   { name: t('分'), class: 'minute' },
@@ -47,7 +73,7 @@ export default defineComponent({
     const parseValue = ref<string[]>([]);
     const isTimeMore = ref(false);
 
-    const handleInputDebounce = debounce(handleInput, 200);
+    const handleInputDebounce = debounce(handleInput, 200, false);
 
     init();
 
@@ -60,7 +86,7 @@ export default defineComponent({
 
     /**
      * @description 检测crontab格式和翻译
-     * @param value 
+     * @param value
      */
     function checkAndTranslate(value: string) {
       const interval = CronExpression.parse(`0 ${value.trim()}`, {
@@ -81,7 +107,7 @@ export default defineComponent({
     /**
      * @description 选中crontab字段
      * @param label  选中的字段名
-     * @returns 
+     * @returns
      */
     function handleTimeTextChange(label: string) {
       if (!nativeValue.value) {
@@ -109,7 +135,7 @@ export default defineComponent({
 
     /**
      * @description 输入框输入
-     * @param event 
+     * @param event
      */
     function handleInput(event: Event | any) {
       const { value } = event.target;
@@ -135,8 +161,8 @@ export default defineComponent({
 
     /**
      * @description 选中输入框文本
-     * @param event 
-     * @returns 
+     * @param event
+     * @returns
      */
     function handleSelectText(event: Event | any) {
       if (
@@ -145,7 +171,7 @@ export default defineComponent({
         return;
       }
       const $target = event.target;
-      const value = trim($target.value);
+      const value = `${$target.value}`.trim();
       nativeValue.value = value;
       if (!value) return;
       setTimeout(() => {
@@ -265,7 +291,10 @@ export default defineComponent({
                 <div key={`${time}${index}`}>{time}</div>
               ))}
             </div>
-            <div class='arrow' onClick={this.handleShowMore}>
+            <div
+              class='arrow'
+              onClick={this.handleShowMore}
+            >
               <AngleDoubleLeft class='arrow-button'></AngleDoubleLeft>
             </div>
           </div>
