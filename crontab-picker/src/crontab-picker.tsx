@@ -24,7 +24,7 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { t, lang } from './lang/lang';
 import CronExpression from 'cron-parser-custom';
 import './crontab-picker.scss';
@@ -54,6 +54,8 @@ const labelIndexMap: { [key: string | number]: string | number } = {
   4: 'dayOfWeek',
 };
 
+const errMessages = ['minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'];
+
 export default defineComponent({
   name: 'CrontabPicker',
   props: {
@@ -64,7 +66,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props, { emit }) {
-    const nativeValue = ref('');
+    const nativeValue = ref('* * * * *');
     const selectIndex = ref<string | number>('');
     const inputRef = ref();
     const nextTime = ref<string[]>([]);
@@ -75,14 +77,31 @@ export default defineComponent({
 
     const handleInputDebounce = debounce(handleInput, 200, false);
 
-    init();
-
     function init() {
-      nativeValue.value = props.modelValue;
-      if (!!nativeValue.value) {
-        checkAndTranslate(nativeValue.value);
+      if (!!props.modelValue) {
+        nativeValue.value = props.modelValue;
+        try {
+          checkAndTranslate(nativeValue.value);
+        } catch (error: any) {
+          parseValue.value = [];
+          nextTime.value = [];
+          if (errMessages.includes(error.message)) {
+            errorField.value = error.message;
+          }
+          isError.value = true;
+        }
       }
     }
+
+    watch(
+      () => props.modelValue,
+      value => {
+        if (nativeValue.value !== value) {
+          init();
+        }
+      },
+      { immediate: true },
+    );
 
     /**
      * @description 检测crontab格式和翻译
@@ -138,18 +157,20 @@ export default defineComponent({
      * @param event
      */
     function handleInput(event: Event | any) {
-      const { value } = event.target;
-      nativeValue.value = value;
+      let targetValue = event.target.value || '';
+      if (event.target.value === undefined) {
+        targetValue = inputRef.value.value || '';
+      }
+      nativeValue.value = targetValue;
       try {
-        checkAndTranslate(value);
-        emit('update:modelValue', value);
-        emit('change', value);
-        emit('input', value);
+        checkAndTranslate(targetValue);
+        emit('update:modelValue', targetValue);
+        emit('change', targetValue);
+        emit('input', targetValue);
       } catch (error: any) {
         parseValue.value = [];
         nextTime.value = [];
-        const all = ['minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'];
-        if (all.includes(error.message)) {
+        if (errMessages.includes(error.message)) {
           errorField.value = error.message;
         }
         isError.value = true;
@@ -170,13 +191,15 @@ export default defineComponent({
       ) {
         return;
       }
-      const $target = event.target;
-      const value = `${$target.value}`.trim();
-      nativeValue.value = value;
-      if (!value) return;
+      let targetValue = `${event.target.value || ''}`.trim();
+      if (event.target.value === undefined) {
+        targetValue = `${inputRef.value.value || ''}`.trim();
+      }
+      nativeValue.value = targetValue;
+      if (!targetValue) return;
       setTimeout(() => {
-        const cursorStart = $target.selectionStart;
-        const cursorStr = value.slice(0, cursorStart);
+        const cursorStart = event.target.selectionStart;
+        const cursorStr = targetValue.slice(0, cursorStart);
         const checkBackspce = cursorStr.match(/ /g);
         if (checkBackspce) {
           selectIndex.value = labelIndexMap[checkBackspce.length];
@@ -261,8 +284,9 @@ export default defineComponent({
         ]}
       >
         <div class='time-describe'>
-          {TIME_STRS.map(item => (
+          {TIME_STRS.map((item, index) => (
             <span
+              key={index}
               class={['time-text', item.class]}
               onClick={() => this.handleTimeTextChange(item.class)}
             >
