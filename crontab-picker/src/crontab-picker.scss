@@ -1,0 +1,123 @@
+.__bk_crontab-picker__ {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  &.is-error {
+    .time-input {
+      .input {
+        border-color: #ff5656;
+      }
+    }
+  }
+
+  .time-describe {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .time-text {
+      color: #c4c6cc;
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 22px;
+      padding: 0 19px;
+      transition: all 0.1s;
+      &.active {
+        color: #3a84ff;
+      }
+    }
+  }
+
+  &.error-month .month,
+  &.error-dayOfMonth .dayOfMonth,
+  &.error-dayOfWeek .dayOfWeek,
+  &.error-hour .hour,
+  &.error-minute .minute {
+    color: #ff5656 !important;
+  }
+
+  &.select-month .month,
+  &.select-dayOfMonth .dayOfMonth,
+  &.select-dayOfWeek .dayOfWeek,
+  &.select-hour .hour,
+  &.select-minute .minute {
+    color: #3a84ff;
+  }
+  .time-input {
+    margin-top: 8px;
+    width: 100%;
+    .input {
+      border: 1px solid #3a84ff;
+      border-radius: 2px;
+      color: #63656e;
+      font-size: 24px;
+      height: 48px;
+      line-height: 48px;
+      outline: none;
+      padding: 0 30px;
+      text-align: center;
+      width: 100%;
+      word-spacing: 30px;
+      box-sizing: border-box;
+
+      &::selection {
+        color: #3a84ff;
+        background: transparent;
+      }
+    }
+  }
+  .time-parse {
+    padding: 10px 0;
+    margin-top: 8px;
+    font-size: 0;
+    line-height: 18px;
+    color: #63656e;
+    text-align: center;
+
+    span {
+      font-size: 12px;
+      white-space: break-spaces;
+    }
+  }
+  .time-next {
+    display: flex;
+    height: 18px;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 18px;
+    color: #979ba5;
+    text-align: center;
+    transition: height 0.2s linear;
+    place-content: center center;
+
+    .value {
+      text-align: left;
+    }
+    .arrow {
+      display: flex;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 2px;
+      cursor: pointer;
+      .arrow-button {
+        font-size: 24px;
+        position: relative;
+        top: 1px;
+        transform: rotateZ(-90deg);
+      }
+    }
+    &.active {
+      height: 90px;
+
+      .arrow {
+        align-items: flex-end;
+
+        .arrow-button {
+          transform: rotateZ(90deg);
+          top: 5px;
+        }
+      }
+    }
+  }
+}

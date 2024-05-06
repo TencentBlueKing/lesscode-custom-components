@@ -1,0 +1,23 @@
+{
+  "type": "crontab-picker",
+  "name": "crontab-picker",
+  "displayName": "周期选择器",
+  "framework": "vue3",
+  "props": {
+    "modelValue": {
+      "type": "string",
+      "val": "",
+      "tips": "周期表达式"
+    }
+  },
+  "events": [
+    {
+      "name": "update:modelValue",
+      "tips": "周期表达式更改时触发的事件"
+    },
+    {
+      "name": "change",
+      "tips": "周期表达式更改时触发的事件"
+    }
+  ]
+}
